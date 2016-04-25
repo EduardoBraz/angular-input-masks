@@ -9,13 +9,15 @@ module.exports = function TimeMaskDirective() {
 		link: function(scope, element, attrs, ctrl) {
 			var timeFormat = '00:00:00';
 			var maxHour = 24;
+			var minHour = 0;
 
 			if (angular.isDefined(attrs.uiTimeMask) && (attrs.uiTimeMask === 'short' || attrs.uiTimeMask === 'ampm')) {
 				timeFormat = '00:00';
 			}
 
 			if (angular.isDefined(attrs.uiTimeMask) && attrs.uiTimeMask === 'ampm') {
-				maxHour = 12;
+				maxHour = 13;
+				minHour = 1;
 			}
 
 			var formattedValueLength = timeFormat.length;
@@ -63,7 +65,7 @@ module.exports = function TimeMaskDirective() {
 					seconds = parseInt(splittedValue[2] || 0);
 
 				return modelValue.toString().length === formattedValueLength &&
-					hours < maxHour && minutes < 60 && seconds < 60;
+					hours >= minHour && hours < maxHour && minutes < 60 && seconds < 60;
 			};
 		}
 	};

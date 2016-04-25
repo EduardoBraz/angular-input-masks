@@ -49,13 +49,23 @@ describe('ui-time-mask', function() {
 		expect(model.$viewValue).toBe('10:26');
 	});
 
-	it('should ignore values greater than 12:00 (ampm mode)', function() {
+	it('should ignore values greater than 13:00 (ampm mode)', function() {
 		var input = TestUtil.compile('<input ng-model="model" ui-time-mask="ampm">', {
 			model: ''
 		});
 
 		var model = input.controller('ngModel');
-		input.val('1201').triggerHandler('input');
+		input.val('1301').triggerHandler('input');
+		expect(model.$modelValue).toBe(undefined);
+	});
+
+	it('should ignore values less than 01:00 (ampm mode)', function() {
+		var input = TestUtil.compile('<input ng-model="model" ui-time-mask="ampm">', {
+			model: ''
+		});
+
+		var model = input.controller('ngModel');
+		input.val('0001').triggerHandler('input');
 		expect(model.$modelValue).toBe(undefined);
 	});
 
